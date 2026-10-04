@@ -27,6 +27,7 @@ fue creado en esta sesion.
 | AuditLog (append-only) | **IMPLEMENTADO** | `src/control-plane/audit.ts` + tests (3 tests). Eventos inmutables (`Object.freeze`), filtrables por correlationId/resource/type. |
 | AgentRegistry (allowlist) | **IMPLEMENTADO** | `src/agents/registry.ts` + tests (5 tests). Ningun agente se auto-registra; `canWrite` explicito por definicion. |
 | ReadinessPreflight | **IMPLEMENTADO** | `src/control-plane/preflight.ts` + tests (5 tests). Estados READY/BLOCKED/DEGRADED con razones estructuradas segun perfil y configuracion real. |
+| Oficina de agentes (UI pixel 2D estilo Pokémon) | **PARCIAL** | `src/office/` (`world.ts`, `roster.ts`, `server.ts` + tests) y `public/office/`. Mapa por tiles, movimiento en rejilla, pathfinding, jugador con WASD, dialogos. Servidor solo GET en 127.0.0.1 (`npm run office`). Limite: los datos de agentes son una **DEMO** etiquetada (`source: "demo"`); no hay orquestador conectado, el estado no es real. El canvas se verifico manualmente con captura de navegador, sin prueba automatizada. |
 | Company Constitution como politica ejecutable | **DISEÑADO** | Descrita en el plan maestro; aun no hay modulo que cargue/versiones politicas desde configuracion. No confundir con este documento, que es narrativa. |
 | Company Brain / memoria persistente | **DISEÑADO** | Sin esquema, sin persistencia, sin codigo. |
 | AI CEO / orquestador (loop OBSERVE→...→LEARN) | **DISEÑADO** | Sin implementacion. Los primitivos de Control Plane de arriba son la base que el orquestador debera usar. |
@@ -43,7 +44,7 @@ fue creado en esta sesion.
 
 ```
 npm run typecheck   → sin errores
-npm test            → 7 archivos de prueba, 33 pruebas, todas en verde
+npm test            → 11 archivos de prueba, 50 pruebas, todas en verde
 ```
 
 Ninguna de estas pruebas realiza llamadas de red: son pruebas unitarias
