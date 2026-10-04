@@ -44,7 +44,7 @@ fue creado en esta sesion.
 
 ```
 npm run typecheck   → sin errores
-npm test            → 11 archivos de prueba, 50 pruebas, todas en verde
+npm test            → 10 archivos de prueba, 50 pruebas, todas en verde
 ```
 
 Ninguna de estas pruebas realiza llamadas de red: son pruebas unitarias
