@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Yellowtail&amp;family=Tilt+Neon&amp;family=Comfortaa:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth;background:#0d0d0f}
+body{margin:0;background:#0d0d0f;color:#f4f3f1;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+*{box-sizing:border-box}
+a{color:#f4f3f1;text-decoration:none}
+a:hover{color:#35e3f2}
+:focus-visible{outline:2px solid #35e3f2;outline-offset:3px;border-radius:4px}
+summary::-webkit-details-marker{display:none}
+textarea::placeholder,input::placeholder{color:#6d6c72}
+@keyframes heroZoom{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</helmet>
+
+<header data-shopify-section="header" style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(13,13,15,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06)">
+  <nav aria-label="Principal" style="max-width:1320px;margin:0 auto;padding:0 clamp(18px,4vw,40px);height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#inicio" aria-label="{{ brandAria }}" style="display:flex;align-items:center;gap:10px;color:#f4f3f1">
+      <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="display:block;height:36px;width:140px;background:{{ logoBg }}"></span></sc-if>
+      <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
+        <span style="font-weight:600;font-size:19px;letter-spacing:0.28em;color:#f4f3f1">{{ brand }}</span>
+      </sc-if>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:36px">
+        <ul style="display:flex;gap:32px;list-style:none;margin:0;padding:0;font-size:14px">
+          <li><a href="#inspiracion" style="color:#c9c8cd">Trabajos e ideas</a></li>
+          <li><a href="#producto" style="color:#c9c8cd">El neón</a></li>
+          <li><a href="#como-funciona" style="color:#c9c8cd">Cómo funciona</a></li>
+        </ul>
+        <a href="#configurador" style="display:inline-flex;align-items:center;height:42px;padding:0 20px;border-radius:999px;background:#f4f3f1;color:#0d0d0f;font-size:14px;font-weight:500" style-hover="background:#35e3f2;color:#0d0d0f">Pedir presupuesto</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="#configurador" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:999px;background:#f4f3f1;color:#0d0d0f;font-size:13px;font-weight:500">Presupuesto</a>
+        <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="menu-movil" aria-label="Abrir menú" style="width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,0.18);background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer">
+          <span style="display:block;width:16px;height:1.5px;background:#f4f3f1"></span>
+          <span style="display:block;width:16px;height:1.5px;background:#f4f3f1"></span>
+        </button>
+      </div>
+    </sc-if>
+  </nav>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <ul id="menu-movil" style="list-style:none;margin:0;padding:8px clamp(18px,4vw,40px) 20px;display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,0.06)">
+      <li><a href="#inspiracion" onClick="{{ closeMenu }}" style="display:block;padding:14px 0;font-size:17px;border-bottom:1px solid rgba(255,255,255,0.06)">Trabajos e ideas</a></li>
+      <li><a href="#producto" onClick="{{ closeMenu }}" style="display:block;padding:14px 0;font-size:17px;border-bottom:1px solid rgba(255,255,255,0.06)">El neón</a></li>
+      <li><a href="#como-funciona" onClick="{{ closeMenu }}" style="display:block;padding:14px 0;font-size:17px">Cómo funciona</a></li>
+    </ul>
+  </sc-if>
+</header>
+
+<main>
+  <section id="inicio" data-shopify-section="hero" aria-label="Portada" style="position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:#0d0d0f">
+    <div style="position:absolute;inset:0;overflow:hidden">{{ heroMedia }}</div>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(13,13,15,0.88) 0%, rgba(13,13,15,0.55) 38%, rgba(13,13,15,0) 68%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(13,13,15,0.5) 0%, rgba(13,13,15,0) 22%, rgba(13,13,15,0) 55%, rgba(13,13,15,0.96) 100%)"></div>
+    <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:84px;right:16px;z-index:3;font:500 11px 'Geist Mono',monospace;padding:4px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px;background:rgba(13,13,15,0.8)">sections/hero · image-banner (video opcional)</span></sc-if>
+    <div style="position:relative;z-index:2;width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(18px,4vw,40px) clamp(56px,10vh,110px)">
+      <p style="margin:0 0 22px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#a3a2a8">Neón LED por encargo · diseño hecho a mano</p>
+      <h1 style="margin:0;font-weight:500;font-size:clamp(52px,9vw,132px);line-height:0.94;letter-spacing:-0.035em;max-width:9ch">Tu idea. <span style="color:#ffe3f2;text-shadow:0 0 2px #ffe3f2, 0 0 10px #ff4fae, 0 0 28px rgba(255,79,174,0.55)">Encendida.</span></h1>
+      <p style="margin:28px 0 0;max-width:32rem;font-size:clamp(16px,1.4vw,19px);line-height:1.55;color:#c9c8cd;text-wrap:pretty">Letreros LED personalizados con tu texto o tu logo. Recibes un presupuesto a medida antes de pagar nada.</p>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:36px">
+        <a href="#configurador" style="display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 28px;border-radius:999px;background:#f4f3f1;color:#0d0d0f;font-size:16px;font-weight:500" style-hover="background:#35e3f2;color:#0d0d0f">Diseña tu neón <span aria-hidden="true">→</span></a>
+        <a href="#inspiracion" style="display:inline-flex;align-items:center;height:56px;font-size:16px;color:#f4f3f1;border-bottom:1px solid rgba(244,243,241,0.35)">Encuentra tu estilo</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Atributos" data-shopify-section="multicolumn" style="border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);background:#0d0d0f">
+    <ul style="list-style:none;margin:0 auto;max-width:1320px;padding:28px clamp(18px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 32px">
+      <li data-reveal="" style="display:flex;flex-direction:column;gap:6px"><span style="font-size:17px;font-weight:500">Tu texto o tu logo</span><span style="font-size:14px;color:#a3a2a8">Escribe tu frase o sube tu diseño.</span></li>
+      <li data-reveal="" style="display:flex;flex-direction:column;gap:6px"><span style="font-size:17px;font-weight:500">Color a tu manera</span><span style="font-size:14px;color:#a3a2a8">Elige el tono que encaja con tu espacio.</span></li>
+      <li data-reveal="" style="display:flex;flex-direction:column;gap:6px"><span style="font-size:17px;font-weight:500">Presupuesto antes de pagar</span><span style="font-size:14px;color:#a3a2a8">Solo pagas si te convence.</span></li>
+      <li data-reveal="" style="display:flex;flex-direction:column;gap:6px"><span style="font-size:17px;font-weight:500">Hecho bajo pedido</span><span style="font-size:14px;color:#a3a2a8">Cada pieza se fabrica a partir de tu diseño.</span></li>
+    </ul>
+  </section>
+
+  <section id="inspiracion" data-shopify-section="image-gallery" style="scroll-margin-top:68px;max-width:1320px;margin:0 auto;padding:clamp(80px,12vw,160px) clamp(18px,4vw,40px) clamp(60px,8vw,100px)">
+    <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-bottom:16px;font:500 11px 'Geist Mono',monospace;padding:4px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">sections/image-gallery · 3 bloques imagen + pie</span></sc-if>
+    <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 40px;margin-bottom:clamp(36px,5vw,64px)">
+      <div>
+        <p style="margin:0 0 16px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#35e3f2">01 — Trabajos e ideas</p>
+        <h2 style="margin:0;font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1;letter-spacing:-0.03em;max-width:14ch">Una luz para cada lugar.</h2>
+      </div>
+      <p style="margin:0;max-width:24rem;font-size:16px;line-height:1.6;color:#a3a2a8;text-wrap:pretty">Ejemplos y propuestas para inspirarte: del cabecero a la barra del café, con tu frase, tu símbolo o tu logo.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(16px,2vw,28px);align-items:start">
+      <figure data-reveal="" style="margin:0">
+        <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;background:#17171a"><img src="img/scene-bedroom.webp" alt="Neón rosa en forma de corazón sobre el cabecero de un dormitorio al atardecer" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.045)"></div>
+        <figcaption style="display:flex;justify-content:space-between;gap:12px;padding-top:16px;font-size:15px"><span style="font-weight:500">Hogar</span><span style="color:#a3a2a8">Un dormitorio con tu firma.</span></figcaption>
+      </figure>
+      <figure data-reveal="" style="margin:0;padding-top:{{ staggerPad }}">
+        <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;background:#17171a"><img src="img/scene-cafe.webp" alt="Neón cian con forma de taza de café en la pared de una cafetería" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.045)"></div>
+        <figcaption style="display:flex;justify-content:space-between;gap:12px;padding-top:16px;font-size:15px"><span style="font-weight:500">Negocio</span><span style="color:#a3a2a8">Tu logo, encendido en tu local.</span></figcaption>
+      </figure>
+      <figure data-reveal="" style="margin:0">
+        <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/5;background:#17171a"><img src="img/scene-studio.webp" alt="Neón violeta con forma de rayo en un estudio creativo" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.045)"></div>
+        <figcaption style="display:flex;justify-content:space-between;gap:12px;padding-top:16px;font-size:15px"><span style="font-weight:500">Estudio</span><span style="color:#a3a2a8">Energía para crear.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="producto" data-shopify-section="main-product" style="scroll-margin-top:68px;background:#121214;border-top:1px solid rgba(255,255,255,0.06)">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(18px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(40px,6vw,96px)">
+      <div data-reveal="">
+        <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-bottom:16px;font:500 11px 'Geist Mono',monospace;padding:4px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">sections/main-product · descripción + metacampos</span></sc-if>
+        <p style="margin:0 0 16px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#35e3f2">02 — El neón</p>
+        <h2 style="margin:0;font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1;letter-spacing:-0.03em;max-width:12ch">Un rótulo LED hecho con tus palabras.</h2>
+        <p style="margin:28px 0 0;max-width:30rem;font-size:17px;line-height:1.65;color:#c9c8cd;text-wrap:pretty">Un letrero LED personalizado por encargo: tú decides el texto o el logo, el color y un tamaño aproximado. Te enviamos un presupuesto a medida y, si te convence, se fabrica y se envía.</p>
+        <p style="margin:20px 0 0;max-width:30rem;font-size:14px;line-height:1.6;color:#8b8a90">Las características marcadas como <span style="font:500 11px 'Geist Mono',monospace;padding:2px 6px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px;white-space:nowrap">pendiente</span> se completarán cuando el proveedor las confirme.</p>
+      </div>
+      <dl data-reveal="" style="margin:0;border-top:1px solid rgba(255,255,255,0.1)">
+        <sc-for list="{{ specs }}" as="s" hint-placeholder-count="10">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
+            <dt style="font-size:15px;color:#a3a2a8">{{ s.label }}</dt>
+            <sc-if value="{{ s.pending }}" hint-placeholder-val="{{ false }}"><dd style="margin:0"><span style="font:500 11px 'Geist Mono',monospace;padding:3px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px;white-space:nowrap">pendiente · proveedor</span></dd></sc-if>
+            <sc-if value="{{ s.confirmed }}" hint-placeholder-val="{{ true }}"><dd style="margin:0;font-size:15px;text-align:right">{{ s.value }}</dd></sc-if>
+          </div>
+        </sc-for>
+      </dl>
+    </div>
+  </section>
+
+  <section id="configurador" data-shopify-section="neon-configurator" aria-labelledby="config-title" style="scroll-margin-top:68px;background:#0d0d0f;border-top:1px solid rgba(255,255,255,0.06)">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(18px,4vw,40px)">
+      <div data-reveal="" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;margin-bottom:clamp(32px,4vw,56px)">
+        <div>
+          <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-bottom:16px;font:500 11px 'Geist Mono',monospace;padding:4px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">sections/neon-configurator · formulario de presupuesto (app de formularios o borrador de pedido) · archivo = carga de archivos</span></sc-if>
+          <p style="margin:0 0 16px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#ff4fae">03 — Crea tu letrero</p>
+          <h2 id="config-title" style="margin:0;font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1;letter-spacing:-0.03em">Diseña y pide presupuesto.</h2>
+        </div>
+        <p style="margin:0;max-width:24rem;font-size:15px;line-height:1.6;color:#a3a2a8">Sin pagar nada: solo dejas tu solicitud. Vista previa de demostración; el formulario aún no envía datos.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:{{ configCols }};gap:clamp(20px,3vw,40px);align-items:start">
+        <div style="position:{{ previewPos }};top:{{ previewTop }};z-index:5">
+          <div role="img" aria-label="{{ previewAria }}" style="position:relative;overflow:hidden;border-radius:8px;height:{{ previewHeight }};background:radial-gradient(ellipse 90% 80% at 35% 20%, #2a2a30 0%, #161619 55%, #0f0f11 100%);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center">
+            <div style="position:absolute;inset:0;background:{{ spill }};transition:background 0.5s ease"></div>
+            <div style="position:absolute;inset:0;opacity:0.35;background-image:radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);background-size:3px 3px"></div>
+            <sc-if value="{{ showTextPreview }}" hint-placeholder-val="{{ true }}">
+              <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:0.05em;padding:24px;text-align:center;font-family:{{ previewFont }};font-size:{{ previewSize }};line-height:1.15;color:{{ previewColor }};text-shadow:{{ previewShadow }};transition:color 0.35s ease, text-shadow 0.35s ease, font-size 0.3s ease;max-width:100%">
+                <sc-for list="{{ lines }}" as="ln" hint-placeholder-count="1"><span style="display:block;white-space:pre">{{ ln }}</span></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showLogoImg }}" hint-placeholder-val="{{ false }}">
+              <div aria-hidden="true" style="position:relative;width:62%;height:62%;background:{{ fileBg }};filter:{{ logoFilter }};transition:filter 0.35s ease"></div>
+            </sc-if>
+            <sc-if value="{{ showLogoPlaceholder }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:28px 32px;border:1.5px dashed {{ dotColor }};border-radius:12px;color:#c9c8cd;text-align:center;max-width:80%">
+                <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:0.12em;text-transform:uppercase">{{ logoPlaceholderTitle }}</span>
+                <span style="font-size:13px;color:#8b8a90;overflow-wrap:anywhere">{{ logoPlaceholderSub }}</span>
+              </div>
+            </sc-if>
+            <div style="position:absolute;left:16px;top:14px;display:flex;gap:8px;align-items:center;font:500 11px 'Geist Mono',monospace;color:#a3a2a8;letter-spacing:0.06em;text-transform:uppercase"><span style="width:8px;height:8px;border-radius:50%;background:{{ dotColor }}"></span>{{ colorLabel }} · {{ sizeLabel }}</div>
+            <button type="button" onClick="{{ toggleLit }}" aria-pressed="{{ litPressed }}" style="position:absolute;right:12px;top:10px;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.16);background:rgba(13,13,15,0.6);color:#f4f3f1;font:500 12px 'Geist',sans-serif;cursor:pointer">{{ litLabel }}</button>
+            <p style="position:absolute;left:16px;right:16px;bottom:12px;margin:0;font:400 11px 'Geist Mono',monospace;color:#8b8a90;text-align:center">Vista previa orientativa · demostración</p>
+          </div>
+        </div>
+
+        <form onSubmit="{{ onSubmit }}" novalidate="" aria-describedby="config-demo-note" style="display:flex;flex-direction:column;gap:30px;background:#141416;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:clamp(20px,3vw,32px)">
+          <div role="group" aria-label="Tipo de diseño" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:#0d0d0f;border:1px solid rgba(255,255,255,0.08)">
+            <sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+              <button type="button" onClick="{{ m.onSelect }}" aria-pressed="{{ m.pressed }}" style="height:44px;border-radius:999px;border:0;background:{{ m.bg }};color:{{ m.fg }};font:500 14px 'Geist',sans-serif;cursor:pointer">{{ m.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isTextMode }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+                <label for="neon-texto" style="font-size:15px;font-weight:500">Tu texto</label>
+                <span id="neon-contador" aria-live="polite" style="font:500 12px 'Geist Mono',monospace;color:{{ counterColor }}">{{ charCount }}/{{ maxChars }}</span>
+              </div>
+              <textarea id="neon-texto" name="Texto" rows="2" value="{{ text }}" onChange="{{ onText }}" placeholder="Tu frase aquí" aria-invalid="{{ textInvalid }}" aria-describedby="neon-ayuda neon-contador" style="width:100%;resize:none;padding:14px 16px;border-radius:6px;background:#0d0d0f;border:1px solid {{ textBorder }};color:#f4f3f1;font:400 17px/1.4 'Geist',sans-serif"></textarea>
+              <p id="neon-ayuda" style="margin:0;font-size:13px;line-height:1.5;color:#8b8a90">Máximo {{ maxChars }} caracteres y 2 líneas (Intro cambia de línea). Límite provisional.</p>
+              <sc-if value="{{ hasTextError }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#ff8a8a">{{ textError }}</p></sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isLogoMode }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:15px;font-weight:500">Tu logo o diseño propio</span>
+              <div role="group" aria-label="Cómo compartirlo" style="display:flex;gap:8px">
+                <sc-for list="{{ logoTabs }}" as="t" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ t.onSelect }}" aria-pressed="{{ t.pressed }}" style="min-height:40px;padding:0 16px;border-radius:999px;background:{{ t.bg }};border:1px solid {{ t.border }};color:#f4f3f1;font:400 14px 'Geist',sans-serif;cursor:pointer">{{ t.label }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ isUploadTab }}" hint-placeholder-val="{{ true }}">
+                <label for="neon-archivo" onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;padding:20px;border-radius:8px;border:1.5px dashed {{ dropBorder }};background:{{ dropBg }};text-align:center;cursor:pointer;transition:background 0.2s ease, border-color 0.2s ease">
+                  <span style="font-size:15px;color:#f4f3f1">{{ dropTitle }}</span>
+                  <span style="font:400 12px 'Geist Mono',monospace;color:#8b8a90">PNG, SVG, PDF o AI</span>
+                  <input id="neon-archivo" type="file" name="Archivo" accept=".png,.svg,.pdf,.ai,image/png,image/svg+xml,application/pdf" onChange="{{ onFile }}" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+                </label>
+                <sc-if value="{{ hasFile }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ clearFile }}" style="align-self:flex-start;min-height:36px;padding:0 14px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.14);color:#c9c8cd;font:400 13px 'Geist',sans-serif;cursor:pointer">Quitar archivo</button>
+                </sc-if>
+              </sc-if>
+              <sc-if value="{{ isDescribeTab }}" hint-placeholder-val="{{ false }}">
+                <label for="neon-descripcion" style="font-size:13px;color:#a3a2a8">Descríbelo con tus palabras</label>
+                <textarea id="neon-descripcion" name="Descripción" rows="4" value="{{ description }}" onChange="{{ onDescription }}" placeholder="Forma, colores, dónde irá, si hay texto…" style="width:100%;resize:vertical;padding:14px 16px;border-radius:6px;background:#0d0d0f;border:1px solid {{ logoBorder }};color:#f4f3f1;font:400 16px/1.5 'Geist',sans-serif"></textarea>
+              </sc-if>
+              <sc-if value="{{ hasLogoError }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#ff8a8a">{{ logoError }}</p></sc-if>
+            </div>
+          </sc-if>
+
+          <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+            <legend style="padding:0;margin-bottom:12px;font-size:15px;font-weight:500">Color</legend>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px">
+              <sc-for list="{{ colors }}" as="c" hint-placeholder-count="7">
+                <button type="button" onClick="{{ c.onSelect }}" aria-pressed="{{ c.pressed }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 12px;border-radius:6px;background:{{ c.bg }};border:1px solid {{ c.border }};color:#f4f3f1;font:400 14px 'Geist',sans-serif;cursor:pointer;text-align:left">
+                  <span aria-hidden="true" style="flex:none;width:16px;height:16px;border-radius:50%;background:{{ c.hex }};box-shadow:{{ c.ring }}"></span>{{ c.label }}
+                </button>
+              </sc-for>
+            </div>
+            <p style="margin:0;font-size:13px;color:#8b8a90">Gama de muestra. Los colores disponibles se confirmarán con el proveedor.</p>
+          </fieldset>
+
+          <sc-if value="{{ isTextMode }}" hint-placeholder-val="{{ true }}">
+            <fieldset style="border:0;margin:0;padding:0">
+              <legend style="padding:0;margin-bottom:12px;font-size:15px;font-weight:500">Estilo de letra</legend>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                <sc-for list="{{ fonts }}" as="f" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ f.onSelect }}" aria-pressed="{{ f.pressed }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:64px;padding:10px 12px;border-radius:6px;background:{{ f.bg }};border:1px solid {{ f.border }};color:#f4f3f1;cursor:pointer;text-align:left">
+                    <span style="font-family:{{ f.css }};font-size:22px;line-height:1">Aa</span><span style="font:400 13px 'Geist',sans-serif;color:#c9c8cd">{{ f.label }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </fieldset>
+          </sc-if>
+
+          <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+            <legend style="padding:0;margin-bottom:12px;font-size:15px;font-weight:500">Tamaño aproximado</legend>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ sizes }}" as="z" hint-placeholder-count="3">
+                <button type="button" onClick="{{ z.onSelect }}" aria-pressed="{{ z.pressed }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:44px;padding:12px;border-radius:6px;background:{{ z.bg }};border:1px solid {{ z.border }};color:#f4f3f1;cursor:pointer;text-align:left">
+                  <span style="font:500 15px 'Geist',sans-serif">{{ z.label }}</span>
+                  <span style="font:400 11px 'Geist Mono',monospace;color:#e6c27a">Medidas: pendiente</span>
+                </button>
+              </sc-for>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:1.5;color:#a3a2a8">{{ rangeText }}</p>
+          </fieldset>
+
+          <fieldset style="border:0;margin:0;padding:0">
+            <legend style="padding:0;margin-bottom:12px;font-size:15px;font-weight:500">¿Dónde irá? <span style="font-weight:400;color:#8b8a90">(opcional)</span></legend>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ uses }}" as="u" hint-placeholder-count="5">
+                <button type="button" onClick="{{ u.onSelect }}" aria-pressed="{{ u.pressed }}" style="min-height:44px;padding:0 16px;border-radius:999px;background:{{ u.bg }};border:1px solid {{ u.border }};color:#f4f3f1;font:400 14px 'Geist',sans-serif;cursor:pointer">{{ u.label }}</button>
+              </sc-for>
+            </div>
+          </fieldset>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label for="neon-email" style="font-size:15px;font-weight:500">Tu email</label>
+            <input id="neon-email" type="email" name="Email" autocomplete="email" inputmode="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="nombre@correo.com" aria-invalid="{{ emailInvalid }}" aria-describedby="neon-email-ayuda" style="width:100%;height:52px;padding:0 16px;border-radius:6px;background:#0d0d0f;border:1px solid {{ emailBorder }};color:#f4f3f1;font:400 16px 'Geist',sans-serif">
+            <p id="neon-email-ayuda" style="margin:0;font-size:13px;color:#8b8a90">Te enviaremos aquí el presupuesto.</p>
+            <sc-if value="{{ hasEmailError }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#ff8a8a">{{ emailError }}</p></sc-if>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;flex-direction:column;gap:16px">
+            <h3 style="margin:0;font-size:15px;font-weight:500">Resumen de tu solicitud</h3>
+            <dl style="margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 20px;font-size:14px">
+              <sc-for list="{{ summary }}" as="r" hint-placeholder-count="6">
+                <dt style="color:#8b8a90">{{ r.k }}</dt><dd style="margin:0;text-align:right;overflow-wrap:anywhere;color:{{ r.color }}">{{ r.v }}</dd>
+              </sc-for>
+            </dl>
+            <button type="submit" style="height:56px;border-radius:999px;border:0;background:#f4f3f1;color:#0d0d0f;font:500 16px 'Geist',sans-serif;cursor:pointer" style-hover="background:#35e3f2">{{ submitLabel }}</button>
+            <p id="config-demo-note" style="margin:0;font-size:13px;line-height:1.5;color:#8b8a90;text-align:center">Demostración: la solicitud no se envía todavía y no se realiza ningún pago.</p>
+            <sc-if value="{{ reviewed }}" hint-placeholder-val="{{ false }}">
+              <div role="status" style="padding:16px 18px;border-radius:6px;border:1px solid rgba(53,227,242,0.35);background:rgba(53,227,242,0.06);font-size:14px;line-height:1.6;color:#d9f6f9">
+                <strong style="display:block;margin-bottom:4px;font-weight:500;color:#f4f3f1">Solicitud preparada.</strong>
+                Esto es una demostración: no se ha enviado nada. Cuando la tienda esté conectada, esta solicitud llegará con tu diseño y te responderemos por email con el precio.
+              </div>
+            </sc-if>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" data-shopify-section="how-it-works" style="scroll-margin-top:68px;background:#121214;border-top:1px solid rgba(255,255,255,0.06)">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(18px,4vw,40px)">
+      <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-bottom:16px;font:500 11px 'Geist Mono',monospace;padding:4px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">sections/multicolumn · 4 pasos</span></sc-if>
+      <div data-reveal="">
+        <p style="margin:0 0 16px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#35e3f2">04 — Cómo funciona</p>
+        <h2 style="margin:0 0 clamp(40px,5vw,72px);font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1;letter-spacing:-0.03em;max-width:16ch">De tu idea a un presupuesto real.</h2>
+      </div>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(32px,4vw,48px)">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <li data-reveal="" style="border-top:1px solid rgba(255,255,255,0.12);padding-top:24px;display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 13px 'Geist Mono',monospace;color:#8b8a90">{{ st.n }}</span>
+            <h3 style="margin:0;font-size:24px;font-weight:500;letter-spacing:-0.02em">{{ st.t }}</h3>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:#a3a2a8;text-wrap:pretty">{{ st.d }}</p>
+            <sc-if value="{{ st.hasNote }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;font:500 11px 'Geist Mono',monospace;padding:3px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">{{ st.note }}</span></sc-if>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <section id="preguntas" data-shopify-section="collapsible-content" style="scroll-margin-top:68px;background:#0d0d0f;border-top:1px solid rgba(255,255,255,0.06)">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(18px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(32px,5vw,80px)">
+      <div data-reveal="">
+        <p style="margin:0 0 16px;font:500 12px 'Geist Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:#ff4fae">05 — Preguntas</p>
+        <h2 style="margin:0;font-weight:500;font-size:clamp(36px,5vw,68px);line-height:1;letter-spacing:-0.03em">Preguntas frecuentes.</h2>
+      </div>
+      <div data-reveal="" style="border-top:1px solid rgba(255,255,255,0.1)">
+        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
+          <details style="border-bottom:1px solid rgba(255,255,255,0.1)">
+            <summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-size:18px;font-weight:500">{{ q.q }}<span aria-hidden="true" style="flex:none;font-weight:300;font-size:22px;color:#a3a2a8">+</span></summary>
+            <div style="padding:0 0 24px;display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+              <p style="margin:0;font-size:16px;line-height:1.65;color:#a3a2a8;max-width:36rem">{{ q.a }}</p>
+              <sc-if value="{{ q.pending }}" hint-placeholder-val="{{ false }}"><span style="font:500 11px 'Geist Mono',monospace;padding:3px 8px;border:1px dashed #e6c27a;color:#e6c27a;border-radius:4px">{{ q.pendingLabel }}</span></sc-if>
+            </div>
+          </details>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Empieza tu diseño" style="position:relative;overflow:hidden;border-top:1px solid rgba(255,255,255,0.06);background:#0d0d0f">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 50% 100%, rgba(255,79,174,0.12), transparent 70%)"></div>
+    <div data-reveal="" style="position:relative;max-width:1320px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(18px,4vw,40px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:32px">
+      <p style="margin:0;font-family:'Yellowtail',cursive;font-size:clamp(48px,8vw,104px);line-height:1.1;color:#e4fdff;text-shadow:0 0 2px #e4fdff, 0 0 10px #35e3f2, 0 0 26px rgba(53,227,242,0.5)">Lo que imaginas, lo encendemos.</p>
+      <a href="#configurador" style="display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 28px;border-radius:999px;background:#f4f3f1;color:#0d0d0f;font-size:16px;font-weight:500" style-hover="background:#35e3f2;color:#0d0d0f">Pedir presupuesto <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer data-shopify-section="footer" style="border-top:1px solid rgba(255,255,255,0.08);background:#0a0a0b">
+  <div style="max-width:1320px;margin:0 auto;padding:48px clamp(18px,4vw,40px) 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-if value="{{ hasLogoImg }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="{{ brand }}" style="display:block;height:40px;width:160px;background:{{ logoBg }}"></span></sc-if>
+      <sc-if value="{{ noLogoImg }}" hint-placeholder-val="{{ true }}">
+        <span style="font-weight:600;font-size:19px;letter-spacing:0.28em;color:#f4f3f1">{{ brand }}</span>
+      </sc-if>
+      <span style="font-size:13px;color:#8b8a90">Diseño por encargo, cotizado a medida. Nombre de marca provisional.</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span style="font:500 11px 'Geist Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:#8b8a90">Legal y ayuda · espacios reservados</span>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:#c9c8cd">
+        <li>Aviso legal</li><li>Privacidad</li><li>Cookies</li><li>Envíos (por cotización)</li><li>Devoluciones</li><li>Contacto</li>
+      </ul>
+      <span style="font-size:12px;color:#6d6c72">Páginas pendientes de redactar con los datos reales del negocio.</span>
+    </div>
+  </div>
+  <div style="max-width:1320px;margin:0 auto;padding:18px clamp(18px,4vw,40px) 28px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:#6d6c72">© {{ year }} {{ brand }}</div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;NEONA&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;logoUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;estimatedRange&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;$129–189&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Presupuesto&quot;},&quot;maxChars&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:24,&quot;min&quot;:4,&quot;max&quot;:60,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Presupuesto&quot;},&quot;heroMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Página&quot;},&quot;showShopifyMap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Página&quot;}}">
+const COLORS = [
+  { id: 'cian', label: 'Cian', hex: '#35e3f2', core: '#e4fdff' },
+  { id: 'rosa', label: 'Rosa', hex: '#ff4fae', core: '#ffe3f2' },
+  { id: 'violeta', label: 'Violeta', hex: '#a66bff', core: '#f1e8ff' },
+  { id: 'azul', label: 'Azul', hex: '#4d7dff', core: '#e3eaff' },
+  { id: 'rojo', label: 'Rojo', hex: '#ff4b4b', core: '#ffe4e0' },
+  { id: 'calido', label: 'Blanco cálido', hex: '#ffcf94', core: '#fff7ec' },
+  { id: 'verde', label: 'Verde', hex: '#47f59a', core: '#e6fff1' }
+];
+const FONTS = [
+  { id: 'manuscrita', label: 'Manuscrita', css: "'Yellowtail', cursive", k: 1.15 },
+  { id: 'moderna', label: 'Moderna', css: "'Tilt Neon', sans-serif", k: 0.9 },
+  { id: 'redonda', label: 'Redondeada', css: "'Comfortaa', sans-serif", k: 0.82 }
+];
+const SIZES = [
+  { id: 's', label: 'Chico', base: 46 },
+  { id: 'm', label: 'Mediano', base: 62 },
+  { id: 'l', label: 'Grande', base: 80 }
+];
+const USES = ['Hogar', 'Negocio', 'Evento', 'Regalo', 'Otro'];
+const SPECS = [
+  { label: 'Producto', value: 'Letrero LED personalizado' },
+  { label: 'Diseño', value: 'Tu texto o tu logo' },
+  { label: 'Color', value: 'A elegir' },
+  { label: 'Tamaño', value: 'Aproximado, según opciones' },
+  { label: 'Precio', value: 'Por presupuesto' },
+  { label: 'Fabricación', value: 'Bajo pedido' },
+  { label: 'Medidas exactas', pending: true },
+  { label: 'Materiales', pending: true },
+  { label: 'Consumo y potencia', pending: true },
+  { label: 'Vida útil', pending: true },
+  { label: 'Montaje e instalación', pending: true },
+  { label: 'Garantía y certificaciones', pending: true }
+];
+const STEPS = [
+  { n: '01', t: 'Diseñas', d: 'Escribe tu texto o sube tu logo, elige color y tamaño.' },
+  { n: '02', t: 'Pides presupuesto', d: 'Sin pagar nada todavía: solo dejas tu solicitud con tu email.' },
+  { n: '03', t: 'Te confirmamos precio', d: 'Te respondemos por email con el precio. Pagas solo si te convence.', note: 'plazo de respuesta: 24–48 h (confirmar)' },
+  { n: '04', t: 'Lo fabricamos y enviamos', d: 'Se fabrica bajo pedido y se envía con número de seguimiento hasta tu puerta.', note: 'plazos y costes de envío: pendiente' }
+];
+const FAQS = [
+  { q: '¿Pago algo al pedir presupuesto?', a: 'No. Pedir presupuesto no tiene coste: dejas tu solicitud y solo pagas si el precio te convence.' },
+  { q: '¿Puedo usar mi propio logo?', a: 'Sí. Puedes subir tu logo o diseño (PNG, SVG, PDF o AI) o describirlo con tus palabras, y lo tendremos en cuenta en el presupuesto.' },
+  { q: '¿Cuánto tarda en llegar?', a: 'Cada letrero se fabrica bajo pedido. Los plazos de fabricación y envío se indicarán en tu presupuesto y se publicarán aquí cuando el proveedor los confirme.', pendingLabel: 'plazos: pendiente' },
+  { q: '¿La vista previa es exacta?', a: 'La vista previa es orientativa: sirve para hacerte una idea del texto, el color y el estilo. El diseño definitivo se revisa contigo antes de fabricar.' },
+  { q: '¿Qué incluye el pedido?', a: 'Tu letrero LED fabricado a partir de tu diseño. El detalle de lo que incluye (accesorios, alimentación, sistema de montaje) se completará con la información del proveedor.', pendingLabel: 'contenido del pedido: pendiente' }
+];
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+class Component extends DCLogic {
+  state = { mode: 'texto', logoTab: 'subir', text: 'Tu idea\nencendida', description: '', file: null, fileUrl: null, dragging: false, color: 'cian', font: 'manuscrita', size: 'm', use: null, email: '', lit: true, errors: {}, reviewed: false, w: typeof window !== 'undefined' ? window.innerWidth : 1280, menuOpen: false };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth, menuOpen: window.innerWidth < 860 ? this.state.menuOpen : false });
+    window.addEventListener('resize', this._onResize);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    setTimeout(() => {
+      this._io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this._io.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) return;
+        el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+        el.style.transition = 'opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1)';
+        this._io.observe(el);
+      });
+    }, 300);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    if (this._io) this._io.disconnect();
+    if (this.state.fileUrl) URL.revokeObjectURL(this.state.fileUrl);
+  }
+
+  maxChars() { return Math.max(4, this.props.maxChars ?? 24); }
+  clearErr(k) { const e = { ...this.state.errors }; delete e[k]; return e; }
+
+  onText = (e) => {
+    let v = e.target.value.replace(/\r/g, '');
+    const parts = v.split('\n');
+    if (parts.length > 2) v = parts[0] + '\n' + parts.slice(1).join(' ');
+    const max = this.maxChars();
+    let count = 0, out = '';
+    for (const ch of v) { if (ch !== '\n') { if (count >= max) break; count++; } out += ch; }
+    this.setState({ text: out, errors: out.trim() ? this.clearErr('text') : this.state.errors, reviewed: false });
+  };
+  onDescription = (e) => this.setState({ description: e.target.value, errors: this.clearErr('logo'), reviewed: false });
+  onEmail = (e) => this.setState({ email: e.target.value, errors: this.clearErr('email'), reviewed: false });
+
+  setFile(f) {
+    if (!f) return;
+    const ok = /\.(png|svg|pdf|ai)$/i.test(f.name);
+    if (!ok) { this.setState({ errors: { ...this.state.errors, logo: 'Formato no admitido. Usa PNG, SVG, PDF o AI.' } }); return; }
+    if (this.state.fileUrl) URL.revokeObjectURL(this.state.fileUrl);
+    const previewable = /\.(png|svg)$/i.test(f.name);
+    this.setState({ file: { name: f.name, previewable }, fileUrl: previewable ? URL.createObjectURL(f) : null, dragging: false, errors: this.clearErr('logo'), reviewed: false });
+  }
+  onFile = (e) => this.setFile(e.target.files && e.target.files[0]);
+  onDragOver = (e) => { e.preventDefault(); if (!this.state.dragging) this.setState({ dragging: true }); };
+  onDragLeave = () => this.setState({ dragging: false });
+  onDrop = (e) => { e.preventDefault(); this.setFile(e.dataTransfer.files && e.dataTransfer.files[0]); };
+  clearFile = () => {
+    if (this.state.fileUrl) URL.revokeObjectURL(this.state.fileUrl);
+    const inp = document.getElementById('neon-archivo'); if (inp) inp.value = '';
+    this.setState({ file: null, fileUrl: null, reviewed: false });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const s = this.state, errors = {};
+    if (s.mode === 'texto' && !s.text.trim()) errors.text = 'Escribe al menos una palabra para tu letrero.';
+    if (s.mode === 'logo') {
+      if (s.logoTab === 'subir' && !s.file) errors.logo = 'Sube tu logo o diseño, o cambia a «Describirlo».';
+      if (s.logoTab === 'describir' && !s.description.trim()) errors.logo = 'Describe tu logo o diseño en unas palabras.';
+    }
+    if (!s.email.trim()) errors.email = 'Escribe tu email para recibir el presupuesto.';
+    else if (!EMAIL_RE.test(s.email.trim())) errors.email = 'Revisa el email: parece incompleto.';
+    if (Object.keys(errors).length) {
+      this.setState({ errors, reviewed: false });
+      const id = errors.text ? 'neon-texto' : errors.logo ? (s.logoTab === 'subir' ? 'neon-archivo' : 'neon-descripcion') : 'neon-email';
+      setTimeout(() => { const el = document.getElementById(id); if (el) el.focus(); }, 0);
+      return;
+    }
+    this.setState({ errors: {}, reviewed: true });
+  };
+
+  renderVals() {
+    const s = this.state;
+    const isMobile = s.w < 860;
+    const max = this.maxChars();
+    const col = COLORS.find(c => c.id === s.color) || COLORS[0];
+    const font = FONTS.find(f => f.id === s.font) || FONTS[0];
+    const size = SIZES.find(z => z.id === s.size) || SIZES[1];
+    const isText = s.mode === 'texto';
+    const trimmed = s.text.trim();
+    const lines = trimmed ? s.text.split('\n').filter(l => l.trim()).map(l => l.trim()) : ['Tu texto'];
+    const longest = Math.max(...lines.map(l => l.length), 1);
+    const fs = Math.max(20, size.base * font.k * Math.min(1, (isMobile ? 9 : 12) / longest) * (isMobile ? 0.68 : 1));
+    const charCount = [...s.text].filter(c => c !== '\n').length;
+    const sel = (on, accent) => ({ pressed: on ? 'true' : 'false', bg: on ? 'rgba(255,255,255,0.07)' : 'transparent', border: on ? (accent || '#f4f3f1') : 'rgba(255,255,255,0.12)' });
+    const brand = this.props.brandName ?? 'NEONA';
+    const words = brand.trim().split(/\s+/);
+    const logoUrl = (this.props.logoUrl ?? '').trim();
+    const range = (this.props.estimatedRange ?? '$129–189').trim();
+    const err = s.errors;
+    const glow = `0 0 1px ${col.core}, 0 0 4px ${col.hex}, 0 0 10px ${col.hex}, 0 0 22px ${col.hex}, 0 0 46px ${col.hex}88`;
+    const showLogoImg = !isText && s.logoTab === 'subir' && !!s.fileUrl;
+
+    const heroMedia = React.createElement('img', {
+      src: 'img/neon-hero.webp',
+      alt: 'Neón LED con el texto «tu idea encendida» en cian y rosa sobre el cabecero de un dormitorio de noche',
+      fetchpriority: 'high', decoding: 'async',
+      style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: isMobile ? '72% center' : '60% center', display: 'block', transformOrigin: '72% 35%', animation: (this.props.heroMotion ?? true) ? 'heroZoom 26s ease-in-out infinite alternate' : 'none' }
+    });
+
+    const designSummary = isText
+      ? { k: 'Texto', v: trimmed ? lines.join(' / ') : '—', color: '#f4f3f1' }
+      : s.logoTab === 'subir'
+        ? { k: 'Logo', v: s.file ? s.file.name : 'Sin archivo', color: s.file ? '#f4f3f1' : '#8b8a90' }
+        : { k: 'Descripción', v: s.description.trim() ? (s.description.trim().slice(0, 60) + (s.description.trim().length > 60 ? '…' : '')) : '—', color: s.description.trim() ? '#f4f3f1' : '#8b8a90' };
+
+    return {
+      brand, brandAria: brand + ' — inicio',
+      logoScript: words[0] || brand, logoSuffix: words.slice(1).join(' '),
+      logoBg: logoUrl ? 'url("' + logoUrl.replace(/"/g, '%22') + '") left center / contain no-repeat' : 'none', hasLogoImg: !!logoUrl, noLogoImg: !logoUrl,
+      year: new Date().getFullYear(),
+      showMap: this.props.showShopifyMap ?? false,
+      isDesktop: !isMobile, isMobile,
+      menuOpen: isMobile && s.menuOpen,
+      menuExpanded: s.menuOpen ? 'true' : 'false',
+      toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      heroMedia,
+      staggerPad: isMobile ? '0px' : '72px',
+      specs: SPECS.map(x => ({ ...x, confirmed: !x.pending })),
+      steps: STEPS.map(x => ({ ...x, hasNote: !!x.note })),
+      faqs: FAQS.map(x => ({ ...x, pending: !!x.pendingLabel })),
+
+      configCols: isMobile ? 'minmax(0,1fr)' : 'minmax(0,1.2fr) minmax(0,1fr)',
+      previewPos: isMobile ? 'relative' : 'sticky',
+      previewTop: isMobile ? 'auto' : '96px',
+      previewHeight: isMobile ? '230px' : 'min(620px, calc(100vh - 140px))',
+      previewAria: isText
+        ? 'Vista previa: «' + lines.join(' ') + '» en ' + col.label.toLowerCase() + ', letra ' + font.label.toLowerCase() + ', tamaño ' + size.label.toLowerCase()
+        : 'Vista previa del logo en ' + col.label.toLowerCase() + ', tamaño ' + size.label.toLowerCase(),
+      showTextPreview: isText,
+      showLogoImg, fileBg: s.fileUrl ? 'url("' + s.fileUrl + '") center / contain no-repeat' : 'none',
+      showLogoPlaceholder: !isText && !showLogoImg,
+      logoPlaceholderTitle: s.file ? 'Archivo recibido' : s.logoTab === 'describir' ? 'Tu diseño descrito' : 'Tu logo aquí',
+      logoPlaceholderSub: s.file ? s.file.name + ' · vista previa no disponible para este formato' : s.logoTab === 'describir' ? 'Lo convertiremos en una propuesta junto al presupuesto' : 'Sube un PNG o SVG para verlo encendido',
+      logoFilter: s.lit ? `brightness(0) invert(1) drop-shadow(0 0 2px ${col.hex}) drop-shadow(0 0 8px ${col.hex}) drop-shadow(0 0 20px ${col.hex})` : 'brightness(0) invert(0.25)',
+      previewFont: font.css,
+      previewSize: fs.toFixed(1) + 'px',
+      previewColor: s.lit ? col.core : '#3b3b41',
+      previewShadow: s.lit ? glow : '0 1px 0 rgba(255,255,255,0.06)',
+      spill: s.lit ? `radial-gradient(ellipse 55% 50% at 50% 50%, ${col.hex}30, transparent 72%)` : 'transparent',
+      lines, dotColor: col.hex, colorLabel: col.label, sizeLabel: size.label,
+      litLabel: s.lit ? 'Encendido' : 'Apagado', litPressed: s.lit ? 'true' : 'false',
+      toggleLit: () => this.setState({ lit: !s.lit }),
+
+      modes: [['texto', 'Texto personalizado'], ['logo', 'Mi logo o diseño']].map(([id, label]) => ({ label, pressed: s.mode === id ? 'true' : 'false', bg: s.mode === id ? '#f4f3f1' : 'transparent', fg: s.mode === id ? '#0d0d0f' : '#c9c8cd', onSelect: () => this.setState({ mode: id, errors: {}, reviewed: false }) })),
+      isTextMode: isText, isLogoMode: !isText,
+      logoTabs: [['subir', 'Subir imagen'], ['describir', 'Describirlo']].map(([id, label]) => ({ label, ...sel(s.logoTab === id), onSelect: () => this.setState({ logoTab: id, errors: this.clearErr('logo'), reviewed: false }) })),
+      isUploadTab: s.logoTab === 'subir', isDescribeTab: s.logoTab === 'describir',
+      onFile: this.onFile, onDragOver: this.onDragOver, onDragLeave: this.onDragLeave, onDrop: this.onDrop, clearFile: this.clearFile,
+      hasFile: !!s.file,
+      dropTitle: s.file ? s.file.name : 'Arrastra tu logo o diseño, o toca para elegir archivo',
+      dropBorder: err.logo ? '#ff8a8a' : s.dragging ? col.hex : 'rgba(255,255,255,0.2)',
+      dropBg: s.dragging ? 'rgba(255,255,255,0.05)' : '#0d0d0f',
+      description: s.description, onDescription: this.onDescription,
+      logoBorder: err.logo ? '#ff8a8a' : 'rgba(255,255,255,0.14)',
+      hasLogoError: !!err.logo, logoError: err.logo || '',
+
+      text: s.text, onText: this.onText, onSubmit: this.onSubmit,
+      charCount, maxChars: max,
+      counterColor: charCount >= max ? '#e6c27a' : '#8b8a90',
+      hasTextError: !!err.text, textError: err.text || '',
+      textInvalid: err.text ? 'true' : 'false',
+      textBorder: err.text ? '#ff8a8a' : 'rgba(255,255,255,0.14)',
+
+      email: s.email, onEmail: this.onEmail,
+      hasEmailError: !!err.email, emailError: err.email || '',
+      emailInvalid: err.email ? 'true' : 'false',
+      emailBorder: err.email ? '#ff8a8a' : 'rgba(255,255,255,0.14)',
+
+      rangeText: range ? 'Rango estimado: ' + range + ' — precio final por presupuesto.' : 'Precio final por presupuesto. Rango orientativo: pendiente.',
+      submitLabel: isText ? 'Pedir presupuesto →' : 'Pedir presupuesto con mi logo →',
+      reviewed: s.reviewed,
+
+      colors: COLORS.map(c => ({ ...c, ...sel(c.id === s.color, c.hex), ring: c.id === s.color ? `0 0 0 2px #141416, 0 0 0 3px ${c.hex}, 0 0 10px ${c.hex}` : 'none', onSelect: () => this.setState({ color: c.id, reviewed: false }) })),
+      fonts: FONTS.map(f => ({ ...f, ...sel(f.id === s.font), onSelect: () => this.setState({ font: f.id, reviewed: false }) })),
+      sizes: SIZES.map(z => ({ ...z, ...sel(z.id === s.size), onSelect: () => this.setState({ size: z.id, reviewed: false }) })),
+      uses: USES.map(u => ({ label: u, ...sel(u === s.use), onSelect: () => this.setState({ use: s.use === u ? null : u, reviewed: false }) })),
+
+      summary: [
+        designSummary,
+        { k: 'Color', v: col.label, color: '#f4f3f1' },
+        ...(isText ? [{ k: 'Letra', v: font.label, color: '#f4f3f1' }] : []),
+        { k: 'Tamaño', v: size.label + ' · medidas pendientes', color: '#f4f3f1' },
+        { k: 'Uso', v: s.use || 'Sin especificar', color: s.use ? '#f4f3f1' : '#8b8a90' },
+        { k: 'Email', v: s.email.trim() || '—', color: s.email.trim() ? '#f4f3f1' : '#8b8a90' },
+        { k: 'Precio', v: 'Por presupuesto', color: '#e6c27a' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
